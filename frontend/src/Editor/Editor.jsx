@@ -255,6 +255,10 @@ class EditorComponent extends React.Component {
     if (!isEqual(prevState.appDefinition, this.state.appDefinition)) {
       computeComponentState(this, this.state.appDefinition.pages[this.state.currentPageId]?.components);
     }
+
+    if (!isEqual(prevState.editorMarginLeft, this.state.editorMarginLeft)) {
+      this.canvasContainerRef.current.scrollLeft += this.state.editorMarginLeft;
+    }
   }
 
   isVersionReleased = (version = this.state.editingVersion) => {
@@ -1950,7 +1954,7 @@ class EditorComponent extends React.Component {
               <div className="main main-editor-canvas" id="main-editor-canvas">
                 <div
                   className={`canvas-container align-items-center ${!showLeftSidebar && 'hide-sidebar'}`}
-                  style={{ transform: `scale(${zoomLevel})`, marginLeft: this.state.editorMarginLeft }}
+                  style={{ transform: `scale(${zoomLevel})`, marginLeft: this.state.editorMarginLeft + 'px' }}
                   onMouseUp={(e) => {
                     if (['real-canvas', 'modal'].includes(e.target.className)) {
                       this.setState({ selectedComponents: [], currentSidebarTab: 2, hoveredComponent: false });
